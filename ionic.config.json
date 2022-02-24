@@ -1,0 +1,7 @@
+{
+  "name": "life-on-track",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
