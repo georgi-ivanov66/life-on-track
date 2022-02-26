@@ -21,7 +21,7 @@
         type="submit"
         expand="full"
       >
-        Log in
+        Sign Up
       </ion-button>
     </form>
   </base-layout>
@@ -29,6 +29,7 @@
 
 <script>
 import { IonList, IonItem, IonInput, IonLabel, IonButton } from "@ionic/vue";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 export default {
   name: "SignupPage",
   components: {
@@ -45,8 +46,20 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      alert("Form submitted");
+    async submitForm() {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(
+        auth,
+        this.enteredEmail,
+        this.enteredPassword
+      )
+        .then(() => {
+          // Signed in
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       this.enteredPassword = "";
       this.enteredEmail = "";
     },

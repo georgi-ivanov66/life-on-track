@@ -19,16 +19,17 @@
         style="margin: 20px"
         shape="round"
         type="submit"
-        expand="full">
-          Sign in
-        </ion-button
+        expand="full"
       >
+        Sign in
+      </ion-button>
     </form>
   </base-layout>
 </template>
 
-<script>
+<script lang="ts">
 import { IonList, IonItem, IonInput, IonLabel, IonButton } from "@ionic/vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default {
   components: {
     IonList,
@@ -44,8 +45,21 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      alert("Form submitted");
+    async submitForm() {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(
+        auth,
+        this.enteredEmail,
+        this.enteredPassword
+      )
+        .then(() => {
+          // Signed in
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       this.enteredPassword = "";
       this.enteredEmail = "";
     },

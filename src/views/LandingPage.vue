@@ -6,8 +6,15 @@
         <div style="padding: 20px"></div>
 
         <div id="buttons-container">
-          <ion-button router-link="/login">Sign in</ion-button>
-          <ion-button router-link="/signup" fill="outline">Sign up</ion-button>
+          <ion-button router-link="/login" v-if="!userSignedIn"
+            >Sign in</ion-button
+          >
+          <ion-button router-link="/signup" fill="outline" v-if="!userSignedIn"
+            >Sign up</ion-button
+          >
+          <ion-button @click="signOutUser" fill="outline" v-if="userSignedIn"
+            >Sign out</ion-button
+          >
         </div>
       </div>
     </ion-content>
@@ -17,13 +24,34 @@
 <script lang="ts">
 import { IonContent, IonPage, IonButton } from "@ionic/vue";
 import { defineComponent } from "vue";
-
+import { getAuth, User, signOut } from "firebase/auth";
 export default defineComponent({
   name: "HomePage",
   components: {
     IonContent,
     IonPage,
     IonButton,
+  },
+  data() {
+    return {
+      auth: getAuth(),
+    };
+  },
+  computed: {
+    userSignedIn() {
+      console.log(this.$store.state.currentUser);
+      return !!this.$store.state.currentUser;
+    },
+  },
+  methods: {
+    async signOutUser(user: User) {
+      if (user) {
+        signOut(this.auth).catch((error) => {
+            // An error happened.
+            console.error(error);
+          });
+      }
+    },
   },
 });
 </script>
