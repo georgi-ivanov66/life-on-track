@@ -39,7 +39,6 @@ export default defineComponent({
   },
   computed: {
     userSignedIn() {
-      console.log(this.$store.state.currentUser);
       return !!this.$store.state.currentUser;
     },
   },
