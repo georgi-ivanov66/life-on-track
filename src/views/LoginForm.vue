@@ -1,5 +1,5 @@
 <template>
-  <base-layout pageTitle="Sign into your account">
+  <base-layout pageTitle="Sign in to your account">
     <template v-slot:actions-start
       ><ion-back-button default-href="/"></ion-back-button
     ></template>
@@ -9,11 +9,24 @@
     >
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Email</ion-label>
+          <ion-label position="floating"
+            ><ion-icon slot="end" :icon="icons.mailOutline" class="input-icon">
+            </ion-icon>
+            Email:
+          </ion-label>
+
           <ion-input type="email" required v-model="enteredEmail"> </ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Password</ion-label>
+          <ion-label position="floating">
+            <ion-icon
+              slot="end"
+              :icon="icons.lockClosedOutline"
+              class="input-icon"
+            >
+            </ion-icon
+            >Password:</ion-label
+          >
           <ion-input type="password" required v-model="enteredPassword">
           </ion-input>
         </ion-item>
@@ -39,6 +52,7 @@ import {
   IonButton,
   IonBackButton,
 } from "@ionic/vue";
+import { personOutline, mailOutline, lockClosedOutline } from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default defineComponent({
@@ -54,6 +68,11 @@ export default defineComponent({
     return {
       enteredEmail: "",
       enteredPassword: "",
+      icons: {
+        personOutline,
+        mailOutline,
+        lockClosedOutline,
+      },
     };
   },
   methods: {
@@ -79,4 +98,14 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style scoped>
+ion-label {
+  display: flex !important;
+  align-items: center;
+}
+
+ion-label ion-icon {
+  height: 100%;
+  margin-right: 5px;
+}
+</style>

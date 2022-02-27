@@ -64,12 +64,7 @@ import {
   IonBackButton,
   IonIcon,
 } from "@ionic/vue";
-import {
-  personOutline,
-  mailOutline,
-  lockClosedOutline,
-  calendarClearOutline,
-} from "ionicons/icons";
+import { personOutline, mailOutline, lockClosedOutline } from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 export default defineComponent({
@@ -92,7 +87,6 @@ export default defineComponent({
         personOutline,
         mailOutline,
         lockClosedOutline,
-        calendarClearOutline,
       },
     };
   },
