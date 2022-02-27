@@ -60,10 +60,8 @@ export default defineComponent({
     async signOutUser(user: User) {
       if (user) {
         try {
-          console.log("signing out " + this.currentUserEmail);
           await signOut(getAuth());
           this.$router.replace("/");
-          console.log("current user now ", this.currentUserEmail);
         } catch {
           (error: FirebaseError) => {
             // An error happened.
