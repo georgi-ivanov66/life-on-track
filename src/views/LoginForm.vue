@@ -29,8 +29,9 @@
 
 <script lang="ts">
 import { IonList, IonItem, IonInput, IonLabel, IonButton } from "@ionic/vue";
+import { defineComponent } from "@vue/runtime-core";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-export default {
+export default defineComponent({
   components: {
     IonList,
     IonItem,
@@ -64,7 +65,7 @@ export default {
       this.enteredEmail = "";
     },
   },
-};
+});
 </script>
 
 <style></style>

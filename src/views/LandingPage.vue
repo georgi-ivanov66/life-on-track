@@ -46,9 +46,9 @@ export default defineComponent({
     async signOutUser(user: User) {
       if (user) {
         signOut(this.auth).catch((error) => {
-            // An error happened.
-            console.error(error);
-          });
+          // An error happened.
+          console.error(error);
+        });
       }
     },
   },
