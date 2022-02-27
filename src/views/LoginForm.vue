@@ -51,6 +51,7 @@ import {
   IonLabel,
   IonButton,
   IonBackButton,
+  IonIcon,
 } from "@ionic/vue";
 import { personOutline, mailOutline, lockClosedOutline } from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
@@ -63,6 +64,7 @@ export default defineComponent({
     IonLabel,
     IonButton,
     IonBackButton,
+    IonIcon,
   },
   data() {
     return {
