@@ -62,7 +62,7 @@ export default defineComponent({
         try {
           console.log("signing out " + this.currentUserEmail);
           await signOut(getAuth());
-          this.$router.push("/");
+          this.$router.replace("/");
           console.log("current user now ", this.currentUserEmail);
         } catch {
           (error: FirebaseError) => {
