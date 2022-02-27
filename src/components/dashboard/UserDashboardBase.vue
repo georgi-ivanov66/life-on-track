@@ -1,7 +1,7 @@
 <template>
   <base-layout pageTitle="Dashboard">
     <template v-slot:actions-start>
-      <ion-button fill="clear" href="/Profile">
+      <ion-button fill="clear" router-link="/Profile">
         <ion-icon slot="icon-only" :icon="personCircleOutline"></ion-icon>
       </ion-button>
     </template>
@@ -13,7 +13,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-subtitle>Personal Details</ion-card-subtitle>
-        <ion-card-title>{{ currentUserEmail }}</ion-card-title>
+        <ion-card-title style="font-size: 20px">{{ currentUserEmail }}</ion-card-title>
       </ion-card-header>
     </ion-card>
   </base-layout>
