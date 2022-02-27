@@ -3,6 +3,8 @@ import { RouteRecordRaw } from "vue-router";
 import LandingPage from "../views/LandingPage.vue";
 import LoginPage from "../views/LoginForm.vue";
 import SignupPage from "../views/SignupForm.vue";
+import ProfilePage from "../components/profile/ViewProfile.vue";
+import UserDashboard from "../components/dashboard/UserDashboardBase.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +21,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/signup",
     name: "SignupPage",
     component: SignupPage,
+  },
+  {
+    path: "/Profile",
+    name: "ProfilePage",
+    component: ProfilePage,
+  },
+  {
+    path: "/Dashboard",
+    name: "Dashboard",
+    component: UserDashboard,
   },
 ];
 

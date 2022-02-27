@@ -12,7 +12,11 @@ export const store = createStore<State>({
   state: {
     currentUser: null,
   },
-  getters: {},
+  getters: {
+    currentUserEmail(state) {
+      return state.currentUser ? state.currentUser.email : null;
+    },
+  },
   mutations: {
     setCurrentUser(state: State, user: User) {
       state.currentUser = user;

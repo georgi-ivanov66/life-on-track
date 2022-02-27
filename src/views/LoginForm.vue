@@ -1,5 +1,8 @@
 <template>
-  <base-layout pageTitle="Sign into your account" pageDefaultBackLink="/">
+  <base-layout pageTitle="Sign into your account">
+    <template v-slot:actions-start
+      ><ion-back-button default-href="/"></ion-back-button
+    ></template>
     <form
       class="ion-padding"
       @submit.prevent="submitForm(enteredEmail, enteredPassword)"
@@ -28,7 +31,14 @@
 </template>
 
 <script lang="ts">
-import { IonList, IonItem, IonInput, IonLabel, IonButton } from "@ionic/vue";
+import {
+  IonList,
+  IonItem,
+  IonInput,
+  IonLabel,
+  IonButton,
+  IonBackButton,
+} from "@ionic/vue";
 import { defineComponent } from "@vue/runtime-core";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default defineComponent({
@@ -38,6 +48,7 @@ export default defineComponent({
     IonInput,
     IonLabel,
     IonButton,
+    IonBackButton,
   },
   data() {
     return {
@@ -55,7 +66,7 @@ export default defineComponent({
       )
         .then(() => {
           // Signed in
-          this.$router.push("/");
+          this.$router.push("/Dashboard");
         })
         .catch((error) => {
           console.error(error);

@@ -12,9 +12,6 @@
           <ion-button router-link="/signup" fill="outline" v-if="!userSignedIn"
             >Sign up</ion-button
           >
-          <ion-button @click="signOutUser" fill="outline" v-if="userSignedIn"
-            >Sign out</ion-button
-          >
         </div>
       </div>
     </ion-content>
@@ -24,7 +21,7 @@
 <script lang="ts">
 import { IonContent, IonPage, IonButton } from "@ionic/vue";
 import { defineComponent } from "vue";
-import { getAuth, User, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 export default defineComponent({
   name: "HomePage",
   components: {
@@ -40,16 +37,6 @@ export default defineComponent({
   computed: {
     userSignedIn() {
       return !!this.$store.state.currentUser;
-    },
-  },
-  methods: {
-    async signOutUser(user: User) {
-      if (user) {
-        signOut(this.auth).catch((error) => {
-          // An error happened.
-          console.error(error);
-        });
-      }
     },
   },
 });
