@@ -9,11 +9,35 @@
     >
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Email</ion-label>
+          <ion-label position="floating"
+            ><ion-icon
+              slot="end"
+              :icon="icons.personOutline"
+              class="input-icon"
+            ></ion-icon
+            >Name:</ion-label
+          >
+          <ion-input type="text" required v-model="enteredName"> </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"
+            ><ion-icon slot="end" :icon="icons.mailOutline" class="input-icon">
+            </ion-icon>
+            Email:
+          </ion-label>
+
           <ion-input type="email" required v-model="enteredEmail"> </ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Password</ion-label>
+          <ion-label position="floating">
+            <ion-icon
+              slot="end"
+              :icon="icons.lockClosedOutline"
+              class="input-icon"
+            >
+            </ion-icon
+            >Password:</ion-label
+          >
           <ion-input type="password" required v-model="enteredPassword">
           </ion-input>
         </ion-item>
@@ -31,7 +55,21 @@
 </template>
 
 <script>
-import { IonList, IonItem, IonInput, IonLabel, IonButton, IonBackButton } from "@ionic/vue";
+import {
+  IonList,
+  IonItem,
+  IonInput,
+  IonLabel,
+  IonButton,
+  IonBackButton,
+  IonIcon,
+} from "@ionic/vue";
+import {
+  personOutline,
+  mailOutline,
+  lockClosedOutline,
+  calendarClearOutline,
+} from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 export default defineComponent({
@@ -42,12 +80,20 @@ export default defineComponent({
     IonInput,
     IonLabel,
     IonButton,
-    IonBackButton
+    IonBackButton,
+    IonIcon,
   },
   data() {
     return {
       enteredEmail: "",
       enteredPassword: "",
+      enteredName: "",
+      icons: {
+        personOutline,
+        mailOutline,
+        lockClosedOutline,
+        calendarClearOutline,
+      },
     };
   },
   methods: {
@@ -72,4 +118,14 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style scoped>
+ion-label {
+  display: flex !important;
+  align-items: center;
+}
+
+ion-label ion-icon {
+  height: 100%;
+  margin-right: 5px;
+}
+</style>
