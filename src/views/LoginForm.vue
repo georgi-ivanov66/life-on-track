@@ -15,7 +15,13 @@
             Email:
           </ion-label>
 
-          <ion-input type="email" required v-model="enteredEmail"> </ion-input>
+          <ion-input
+            type="email"
+            required
+            v-model="enteredEmail"
+            @ionFocus="clearErrors"
+          >
+          </ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">
@@ -27,7 +33,12 @@
             </ion-icon
             >Password:</ion-label
           >
-          <ion-input type="password" required v-model="enteredPassword">
+          <ion-input
+            type="password"
+            required
+            v-model="enteredPassword"
+            @ionFocus="clearErrors"
+          >
           </ion-input>
         </ion-item>
       </ion-list>
@@ -39,6 +50,15 @@
       >
         Sign in
       </ion-button>
+      <ion-toast
+        v-if="errorThrown"
+        animated
+        header="Could not sign you up"
+        :message="errorMessage"
+        color="danger"
+        position="top"
+        :icon="icons.alertOutline"
+      ></ion-toast>
     </form>
   </base-layout>
 </template>
@@ -52,6 +72,8 @@ import {
   IonButton,
   IonBackButton,
   IonIcon,
+  IonToast,
+  toastController,
 } from "@ionic/vue";
 import { personOutline, mailOutline, lockClosedOutline } from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
@@ -65,6 +87,7 @@ export default defineComponent({
     IonButton,
     IonBackButton,
     IonIcon,
+    IonToast,
   },
   data() {
     return {
@@ -75,6 +98,18 @@ export default defineComponent({
         mailOutline,
         lockClosedOutline,
       },
+      errorThrown: false,
+      errorMessage: "",
+      errors: [
+        {
+          code: "auth/wrong-password",
+          message: "The password you have entered is incorrect",
+        },
+        {
+          code: "auth/user-not-found",
+          message: "No user exists with these credentials",
+        },
+      ],
     };
   },
   methods: {
@@ -90,11 +125,25 @@ export default defineComponent({
           this.$router.push("/Dashboard");
         })
         .catch((error) => {
-          console.error(error);
+          const errorMatch = this.errors.find((e) => e.code === error.code);
+          this.errorThrown = true;
+          this.errorMessage = errorMatch
+            ? errorMatch.message
+            : "An error has occurred, please try again";
+          if (error.code !== "auth/wrong-password") {
+            this.enteredEmail = "";
+          }
         });
 
       this.enteredPassword = "";
-      this.enteredEmail = "";
+    },
+    async clearErrors() {
+      const toast = await toastController.getTop();
+      if (toast) {
+        await toastController.dismiss();
+      }
+      this.errorThrown = false;
+      this.errorMessage = "";
     },
   },
 });
