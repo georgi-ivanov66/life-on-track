@@ -75,7 +75,7 @@ import {
   IonToast,
   toastController,
 } from "@ionic/vue";
-import { personOutline, mailOutline, lockClosedOutline } from "ionicons/icons";
+import { personOutline, mailOutline, lockClosedOutline, alertOutline } from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default defineComponent({
@@ -97,6 +97,7 @@ export default defineComponent({
         personOutline,
         mailOutline,
         lockClosedOutline,
+        alertOutline
       },
       errorThrown: false,
       errorMessage: "",
