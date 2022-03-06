@@ -54,7 +54,7 @@
   </base-layout>
 </template>
 
-<script>
+<script lang="ts">
 import {
   IonList,
   IonItem,
@@ -66,7 +66,8 @@ import {
 } from "@ionic/vue";
 import { personOutline, mailOutline, lockClosedOutline } from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, User } from "firebase/auth";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
 export default defineComponent({
   name: "SignupPage",
   components: {
@@ -93,20 +94,32 @@ export default defineComponent({
   methods: {
     async submitForm() {
       const auth = getAuth();
-      createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth,
         this.enteredEmail,
         this.enteredPassword
       )
-        .then(() => {
+        .then((value) => {
           // Signed in
-          this.$router.push("/");
+          this.addUserToFirestore(value.user);
+          this.$router.push("/Dashboard");
         })
         .catch((error) => {
           console.error(error);
         });
       this.enteredPassword = "";
       this.enteredEmail = "";
+    },
+    async addUserToFirestore(user: User) {
+      try {
+        const db = getFirestore();
+        await setDoc(doc(db, "users", user.uid), {
+          name: this.enteredName,
+          email: user.email,
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     },
   },
 });
