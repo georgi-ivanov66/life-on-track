@@ -28,6 +28,7 @@ import BaseLayout from "./components/base/BaseLayout.vue";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 // import { getFirestore } from "firebase/firestore";
 import { store, key } from "./store";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -53,12 +54,23 @@ app.component("base-layout", BaseLayout);
 
 router.isReady().then(() => {
   app.mount("#app");
-
-  getAuth().onAuthStateChanged((user) => {
+  const db = getFirestore();
+  getAuth().onAuthStateChanged(async (user) => {
     if (user) {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        store.state.currentUser = user;
+        store.state.currentUserData = docSnap.data();
+        //console.log("Document data:", docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.error("Fatal: No such document!");
+      }
       store.state.currentUser = user;
     } else {
       store.state.currentUser = null;
+      store.state.currentUserData = null;
     }
   });
 });

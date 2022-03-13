@@ -75,7 +75,12 @@ import {
   IonToast,
   toastController,
 } from "@ionic/vue";
-import { personOutline, mailOutline, lockClosedOutline, alertOutline } from "ionicons/icons";
+import {
+  personOutline,
+  mailOutline,
+  lockClosedOutline,
+  alertOutline,
+} from "ionicons/icons";
 import { defineComponent } from "@vue/runtime-core";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default defineComponent({
@@ -97,7 +102,7 @@ export default defineComponent({
         personOutline,
         mailOutline,
         lockClosedOutline,
-        alertOutline
+        alertOutline,
       },
       errorThrown: false,
       errorMessage: "",
@@ -135,7 +140,8 @@ export default defineComponent({
             this.enteredEmail = "";
           }
         });
-
+      // temporary solution to email staying in input when you logout
+      this.enteredEmail = "";
       this.enteredPassword = "";
     },
     async clearErrors() {

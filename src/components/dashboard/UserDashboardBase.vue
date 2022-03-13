@@ -1,19 +1,29 @@
 <template>
-  <base-layout pageTitle="Dashboard">
+  <base-layout pageTitle="Dashboard" v-if="!loading">
     <template v-slot:actions-start>
       <ion-button fill="clear" router-link="/Profile">
-        <ion-icon slot="icon-only" :icon="personCircleOutline"></ion-icon>
+        <ion-icon slot="icon-only" :icon="icons.personCircleOutline"></ion-icon>
       </ion-button>
     </template>
     <template v-slot:actions-end>
       <ion-button @click="signOutUser(currentUser)" fill="clear">
-        <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+        <ion-icon slot="icon-only" :icon="icons.logOutOutline"></ion-icon>
       </ion-button>
     </template>
     <ion-card>
       <ion-card-header>
         <ion-card-subtitle>Personal Details</ion-card-subtitle>
-        <ion-card-title style="font-size: 20px">{{ currentUserEmail }}</ion-card-title>
+        <ion-card-title style="font-size: 20px">{{
+          currentUserData.name
+        }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Weight</ion-card-subtitle>
+        <ion-card-content>
+          <base-chart></base-chart>
+        </ion-card-content>
       </ion-card-header>
     </ion-card>
   </base-layout>
@@ -29,10 +39,12 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
+  IonCardContent,
 } from "@ionic/vue";
 import { logOutOutline, personCircleOutline } from "ionicons/icons";
 import { getAuth, User, signOut } from "firebase/auth";
 import { FirebaseError } from "@firebase/util";
+import BaseChart from "../base/BaseChart.vue"
 
 export default defineComponent({
   name: "UserDashboard",
@@ -44,9 +56,11 @@ export default defineComponent({
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
+    IonCardContent,
+    BaseChart,
   },
   data() {
-    return { logOutOutline, personCircleOutline };
+    return { icons: { logOutOutline, personCircleOutline }, loading: true };
   },
   computed: {
     currentUserEmail(): User {
@@ -54,6 +68,9 @@ export default defineComponent({
     },
     currentUser() {
       return this.$store.state.currentUser;
+    },
+    currentUserData() {
+      return this.$store.state.currentUserData;
     },
   },
   methods: {
@@ -68,6 +85,15 @@ export default defineComponent({
             console.error(error);
           };
         }
+      }
+    },
+  },
+  watch: {
+    currentUserData() {
+      if (this.currentUserData) {
+        this.loading = false;
+      } else {
+        this.loading = true;
       }
     },
   },
